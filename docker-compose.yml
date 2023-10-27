@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  client:
+    build: ./client
+    restart: always
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    ports:
+      - 3000:3000
+    command: npm run serve
+    depends_on:
+      - server
+
+  server:
+    build: ./server
+    restart: always
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+    ports:
+      - 5000:5000
+    command: npm run start:dev
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    restart: always
+    env_file:
+      - ./server/development.env
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  pgdata:
