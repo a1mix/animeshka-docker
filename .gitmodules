@@ -1,0 +1,6 @@
+[submodule "client"]
+	path = client
+	url = https://github.com/a1mix/animeshka-client
+[submodule "server"]
+	path = server
+	url = https://github.com/a1mix/animeshka-server
